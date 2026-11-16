@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian: #09090b;
+  --color-line: #27272a;
+  --color-fg: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-accent: #06b6d4;
+  --color-accent-2: #8b5cf6;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-obsidian);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 35%, transparent);
+  color: var(--color-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Custom cursor active: hide the native one everywhere */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+/* Faint dot-matrix grid behind everything */
+.dot-grid {
+  background-image: radial-gradient(rgba(250, 250, 250, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 20%, transparent 100%);
+}
+
+/* Brighter dots revealed only around the cursor */
+.dot-grid-spot {
+  background-image: radial-gradient(rgba(6, 182, 212, 0.55) 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(
+    280px circle at var(--cx, -1000px) var(--cy, -1000px),
+    #000 0%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    280px circle at var(--cx, -1000px) var(--cy, -1000px),
+    #000 0%,
+    transparent 100%
+  );
+}
+
+/* Spotlight border ring: gradient painted only on a 1px frame */
+.spotlight-ring {
+  padding: 1px;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Outlined display text (footer watermark) */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(250, 250, 250, 0.1);
+}
+
+/* Infinite marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--dur, 50s) linear infinite;
+  will-change: transform;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Aurora blobs */
+@keyframes aurora-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(10vw, -8vh, 0) scale(1.15);
+  }
+  66% {
+    transform: translate3d(-6vw, 10vh, 0) scale(0.95);
+  }
+}
+@keyframes aurora-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(-12vw, 6vh, 0) scale(0.9);
+  }
+  66% {
+    transform: translate3d(8vw, -10vh, 0) scale(1.2);
+  }
+}
+.aurora-a {
+  animation: aurora-a 26s ease-in-out infinite;
+}
+.aurora-b {
+  animation: aurora-b 32s ease-in-out infinite;
+}
+
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.04);
+  }
+}
+.glow-drift {
+  animation: glow-drift 7s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+.scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-drift,
+  .scroll-dot,
+  .marquee-track,
+  .aurora-a,
+  .aurora-b {
+    animation: none;
+  }
+}
